@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: ec2 dedicated instances
+
+Resources:
+  kkInstance1:
+    Type: AWS::EC2::Instance
+    Properties:
+      Affinity: host
+      KeyName: koreytest
+      ImageId: ami-0f8c82faeb08f15da
+      InstanceType: a1.medium
+      Monitoring: false
+      HostId: !ImportValue kkHost
+      Tenancy: host
+      SubnetId: !ImportValue kkSubnet
+      SecurityGroupIds:
+        - !ImportValue kkSecurityGroup
+  kkInstance2:
+    Type: AWS::EC2::Instance
+    Properties:
+      Affinity: host
+      KeyName: koreytest
+      ImageId: ami-0f8c82faeb08f15da
+      InstanceType: a1.medium
+      Monitoring: false
+      HostId: !ImportValue kkHost
+      Tenancy: host
+      SubnetId: !ImportValue kkSubnet
+      SecurityGroupIds:
+        - !ImportValue kkSecurityGroup
+Outputs:
+  instance1Public:
+    Description: 1 public ip
+    Value: !GetAtt kkInstance1.PublicIp
+    Export:
+      Name: kkInstance1Public
+  instance2Public:
+    Description: 1 public ip
+    Value: !GetAtt kkInstance2.PublicIp
+    Export:
+      Name: kkInstance2Public
